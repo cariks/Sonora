@@ -153,3 +153,54 @@ document.addEventListener('DOMContentLoaded', function() {
     initThemeToggle();
     loadContent('homepage.php', 'content');
 });
+
+
+
+
+function updateProfilePicture(imageData) {
+    const profileImages = document.querySelectorAll('[data-profile-image]');
+    profileImages.forEach(img => {
+        if (imageData) {
+            // Ja ir jauns attēls
+            if (img.tagName === 'IMG') {
+                img.src = `data:image/jpeg;base64,${imageData}`;
+            } else {
+                // Izveidojam jaunu img elementu
+                const newImg = document.createElement('img');
+                newImg.src = `data:image/jpeg;base64,${imageData}`;
+                newImg.alt = 'Profile picture';
+                newImg.className = 'w-full h-full object-cover';
+                img.parentNode.replaceChild(newImg, img);
+
+            }
+        }
+    });
+}
+// Veidlapas iesniegšanas apstrādātāja atjaunināšana
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    fetch('admin/database/upload_profile_picture.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            throw new Error(data.error);
+        }
+        // Lai atjauninātu tikai attēlu, nevis pārlādētu lapu
+        if (data.image) {
+            updateProfilePicture(data.image);
+        }
+        // Aizvērt modālo logu
+        const modal = document.getElementById('profile-picture-modal');
+        if (modal) {
+            modal.classList.add('hidden');
+        }
+    })
+    .catch(error => {
+        errorDiv.textContent = error.message;
+        errorDiv.classList.remove('hidden');
+    });
+});

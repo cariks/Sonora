@@ -9,35 +9,44 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Iegūstam lietotāja datus
+
+// Iegūt lietotāja datus (izmantojot cache)
 $userData = getUserData($savienojums, $_SESSION['user_id']);
+
+// Generēt data URI attēlam tikai tad, ja tas eksistē
+$profileImageSrc = '';
+
+if ($userData && $userData['profile_picture']) {
+    $profileImageSrc = 'data:image/jpeg;base64,' . base64_encode($userData['profile_picture']);
+}
 ?>
 
-<!-- Profila sadaļa -->
+<!-- Profile -->
+
 <h1 class="text-2xl font-bold">Profils</h1>
 
 <div class="pt-6 pb-6">
 <button data-modal-toggle="profile-picture-modal">
   <div class="relative w-60 h-60 overflow-hidden bg-neutral-100 rounded-full dark:bg-neutral-600 cursor-pointer filter hover:brightness-75 transition-all group">
-    <?php if ($userData && $userData['profile_picture']): ?>
-        <!-- Lietotāja profila attēls -->
-        <img src="data:image/jpeg;base64,<?php echo base64_encode($userData['profile_picture']); ?>" 
+    <?php if ($profileImageSrc): ?>
+        <!-- User profile picture -->
+        <img src="<?php echo $profileImageSrc; ?>" 
              alt="Profile picture" 
              class="w-full h-full object-cover">
     <?php else: ?>
-        <!-- Noklusējuma profila ikona -->
+        <!-- Default profile icon -->
         <svg class="absolute w-72 h-72 text-neutral-400 -left-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
         </svg>
     <?php endif; ?>
     
-    <!-- Samainīt attēlu -->
+    <!-- Change image -->
     <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity">
-      <!-- Ikona -->
+      <!-- Icon -->
       <svg class="w-20 h-20 text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -pt-3 pb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M18 5V4a1 1 0 0 0-1-1H8.914a1 1 0 0 0-.707.293L4.293 7.207A1 1 0 0 0 4 7.914V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5M9 3v4a1 1 0 0 1-1 1H4m11.383.772 2.745 2.746m1.215-3.906a2.089 2.089 0 0 1 0 2.953l-6.65 6.646L9 17.95l.739-3.692 6.646-6.646a2.087 2.087 0 0 1 2.958 0Z"/>
       </svg>
-      <!-- Teksts -->
+      <!-- Text -->
       <span class="absolute text-white font-semibold text-sm top-1/2 left-1/2 transform -translate-x-1/2 mt-8 select-none">Augšupielādēt</span>
     </div>
   </div>
@@ -45,10 +54,10 @@ $userData = getUserData($savienojums, $_SESSION['user_id']);
 
 </div>
 
-<!-- Lietotāja informācija -->
+<!-- User Info -->
 <div class="mb-8">
     <div class="grid grid-cols-1 gap-4 max-w-xl">
-        <!-- Lietotājvārds -->
+        <!-- Username -->
         <div class="mb-4">
             <label class="block text-sm font-medium text-neutral-900 dark:text-neutral-200 mb-2">
                 Lietotājvārds
@@ -59,7 +68,8 @@ $userData = getUserData($savienojums, $_SESSION['user_id']);
                 </span>
             </div>
         </div>
-        <!-- Epasts -->
+        
+        <!-- Email -->
         <div class="mb-4">
             <label class="block text-sm font-medium text-neutral-900 dark:text-neutral-200 mb-2">
                 E-pasts
@@ -73,11 +83,13 @@ $userData = getUserData($savienojums, $_SESSION['user_id']);
     </div>
 </div>
 
-<!-- Modal logs -->
+<!-- Small Modal -->
 <div id="profile-picture-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden justify-center items-center w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    
     <!-- Backdrop -->
     <div class="absolute inset-0 bg-black opacity-50"></div>
     <div class="relative w-full max-w-md max-h-full z-10">
+    
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow dark:bg-neutral-800">
             <!-- Modal header -->
@@ -107,6 +119,7 @@ $userData = getUserData($savienojums, $_SESSION['user_id']);
                         <input id="dropzone-file" type="file" class="hidden" />
                     </label>
                 </div> 
+
             </div>
             <!-- Modal footer -->
             <div class="flex items-center p-4 md:p-5 border-t border-neutral-200 rounded-b dark:border-neutral-600">
@@ -117,7 +130,8 @@ $userData = getUserData($savienojums, $_SESSION['user_id']);
     </div>
 </div>
 
-<!-- Iestatījumi -->
+
+<!-- Main settings -->
 
 <h1 class="text-2xl font-bold">Iestatījumi</h1>
 
