@@ -6,14 +6,14 @@
   <br>
 </h1>
 
-<h4 align="center">Šis projekts ir tīmekļa pakalpojums, kas piedāvā augstas kvalitātes mūzikas straumēšanu ar personalizētu pieredzi un modernām skaņas pielāgošanas iespējām.</a>.</h4>
+<h4 align="center">Šis projekts ir tīmekļa pakalpojums, kas piedāvā augstas kvalitātes mūzikas straumēšanu ar personalizētu pieredzi un modernām skaņas pielāgošanas iespējām.</a></h4>
 
 ## Funkcijas
 
 * Augstas kvalitātes mūzikas straumēšana
   - FLAC
   - WAV
-* Personalizēti atskaņošanas saraksti (publiski un privāti)
+* Personalizēti atskaņošanas saraksti
   - Publiski
   - Privāti
 * Skaņas pielāgošanas rīki
