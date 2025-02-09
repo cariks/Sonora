@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="https://raw.githubusercontent.com/cariks/Sonora/refs/heads/master/assets/Sonora%20Readme%20Poster.png?token=GHSAT0AAAAAAC6THI7O5BAZT2ZLQDBBKW7IZ5HZX3A" alt="Sonora" height="300">
+  <img src="assets/Sonora Readme Poster.png" alt="Sonora" height="300">
   <br>
   Sonora
   <br>
